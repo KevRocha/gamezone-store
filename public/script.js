@@ -2,6 +2,22 @@
 // VARIABLES GLOBALES
 // ============================================
 const API_BASE_URL = 'https://www.cheapshark.com/api/1.0';
+const MAX_RESULTS = 20; // Máximo de resultados por página
+const STORES = { // Mapa de tiendas disponibles
+  '1': 'Steam',
+  '3': 'Humble Store',
+  '2': 'Amazon',
+  '7': 'Gog',
+  '8': 'GamersGate',
+  '11': 'Newegg',
+  '13': 'Fanatical',
+  '15': 'Green Man Gaming',
+  '27': 'WinGameStore',
+  '32': 'Voidu',
+  '19': '2Game',
+  '51': 'Epic Games Store'
+};
+
 let games = [];
 let filteredGames = [];
 let currentPage = 0;
