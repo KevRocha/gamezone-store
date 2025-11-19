@@ -62,15 +62,22 @@ async function fetchGames(pageSize = 20, pageNumber = 0, storeID = '') {
     
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error('Error al obtener los juegos');
+      throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
     }
     
     const data = await response.json();
+    if (!Array.isArray(data)) {
+      throw new Error('Formato de respuesta inválido');
+    }
+    
     showLoading(false);
     return data;
   } catch (error) {
     showLoading(false);
-    showError(`No se pudieron cargar los juegos: ${error.message}`);
+    const errorMsg = error instanceof TypeError 
+      ? 'Error de conexión. Verifica tu conexión a internet.'
+      : `No se pudieron cargar los juegos: ${error.message}`;
+    showError(errorMsg);
     console.error('Error en fetchGames:', error);
     return [];
   }
