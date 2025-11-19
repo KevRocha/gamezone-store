@@ -391,6 +391,52 @@ function initEventListeners() {
 }
 
 // ============================================
+// FUNCIONES DE ALMACENAMIENTO LOCAL
+// ============================================
+
+/**
+ * Guarda preferencias de usuario en localStorage
+ */
+function savePreferences() {
+  const preferences = {
+    storeFilter: currentStoreFilter,
+    sortOption: currentSortOption,
+    lastSearchTerm: searchInput.value
+  };
+  try {
+    localStorage.setItem('gameZonePreferences', JSON.stringify(preferences));
+    console.log('✓ Preferencias guardadas');
+  } catch (error) {
+    console.warn('No se pudieron guardar las preferencias:', error);
+  }
+}
+
+/**
+ * Carga preferencias guardadas desde localStorage
+ */
+function loadPreferences() {
+  try {
+    const saved = localStorage.getItem('gameZonePreferences');
+    if (saved) {
+      const preferences = JSON.parse(saved);
+      currentStoreFilter = preferences.storeFilter || '';
+      currentSortOption = preferences.sortOption || 'default';
+      if (preferences.lastSearchTerm) {
+        searchInput.value = preferences.lastSearchTerm;
+      }
+      // Aplicar filtros guardados
+      storeFilter.value = currentStoreFilter;
+      sortSelect.value = currentSortOption;
+      console.log('✓ Preferencias cargadas');
+      return true;
+    }
+  } catch (error) {
+    console.warn('No se pudieron cargar las preferencias:', error);
+  }
+  return false;
+}
+
+// ============================================
 // FUNCIONES AUXILIARES
 // ============================================
 
@@ -446,6 +492,8 @@ async function initApp() {
   
   if (games.length > 0) {
     searchMode = false;
+    // Cargar preferencias guardadas
+    loadPreferences();
     filterAndSort();
     console.log(`✓ Se cargaron ${games.length} juegos`);
   } else {
@@ -454,6 +502,11 @@ async function initApp() {
   
   // Inicializar event listeners
   initEventListeners();
+  
+  // Guardar preferencias cada vez que cambien
+  storeFilter.addEventListener('change', savePreferences);
+  sortSelect.addEventListener('change', savePreferences);
+  searchInput.addEventListener('input', savePreferences);
 }
 
 // Ejecutar cuando el DOM esté listo
