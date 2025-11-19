@@ -357,10 +357,14 @@ function initEventListeners() {
     }
   });
   
-  // Filtro de tienda
-  storeFilter.addEventListener('change', (e) => {
-    currentStoreFilter = e.target.value;
+  // Filtro de tienda con debounce
+  const debouncedFilterChange = debounce((value) => {
+    currentStoreFilter = value;
     filterAndSort();
+  }, 300);
+  
+  storeFilter.addEventListener('change', (e) => {
+    debouncedFilterChange(e.target.value);
   });
   
   // Ordenamiento
@@ -389,6 +393,20 @@ function initEventListeners() {
 // ============================================
 // FUNCIONES AUXILIARES
 // ============================================
+
+/**
+ * Crea una función debounced para evitar múltiples llamadas
+ * @param {Function} func - Función a ejecutar
+ * @param {number} delay - Delay en ms
+ * @returns {Function} Función debounced
+ */
+function debounce(func, delay = 500) {
+  let timeoutId;
+  return function (...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func.apply(this, args), delay);
+  };
+}
 
 /**
  * Valida si un objeto de juego tiene los datos necesarios
