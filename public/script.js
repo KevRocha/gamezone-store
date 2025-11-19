@@ -380,6 +380,33 @@ function initEventListeners() {
 }
 
 // ============================================
+// FUNCIONES AUXILIARES
+// ============================================
+
+/**
+ * Valida si un objeto de juego tiene los datos necesarios
+ * @param {Object} game - Objeto del juego
+ * @returns {boolean} True si es válido
+ */
+function isValidGame(game) {
+  return game && 
+         game.title && 
+         game.salePrice !== undefined && 
+         game.normalPrice !== undefined;
+}
+
+/**
+ * Calcula el porcentaje de descuento
+ * @param {number} normalPrice - Precio normal
+ * @param {number} salePrice - Precio en oferta
+ * @returns {number} Porcentaje de descuento
+ */
+function calculateDiscount(normalPrice, salePrice) {
+  if (normalPrice <= 0) return 0;
+  return Math.round(((normalPrice - salePrice) / normalPrice) * 100);
+}
+
+// ============================================
 // INICIALIZACIÓN
 // ============================================
 
